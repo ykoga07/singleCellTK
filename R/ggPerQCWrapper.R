@@ -125,7 +125,7 @@ plotRunPerCellQCResults <- function(inSCE,
     sampleSub <- sample[sampleInd]
     inSCESub <- inSCE[, sampleInd]
 
-    if (length(samples) == 1) {
+    if (length(samples) == 1 | combinePlot == "sample") {
         violin.sum <- list(sum = plotSCEViolinColData(
           inSCE=inSCESub,
           coldata="sum",
@@ -147,7 +147,7 @@ plotRunPerCellQCResults <- function(inSCE,
         res.list <- c(res.list, violin.sum)
     }
 
-    if (length(samples) == 1) {
+    if (length(samples) == 1 | combinePlot == "sample") {
         violin.detected <- list(detected = plotSCEViolinColData(
           inSCE=inSCESub,
           coldata="detected",
@@ -556,7 +556,7 @@ plotScrubletResults <- function(inSCE,
     ))
     res.list <- c(res.list, scatterScore)
 
-    if (length(samples) == 1) {
+    if (length(samples) == 1 | combinePlot == "sample") {
         violinScore <- list(violin_doubletScore = plotSCEViolinColData(
           inSCE=inSCESub, coldata="scrublet_score",
           sample=sampleSub,
@@ -858,7 +858,7 @@ plotDoubletFinderResults <- function(inSCE,
     })
     res.list <- c(res.list, scatterScore)
 
-    if (length(samples) == 1) {
+    if (length(samples) == 1 | combinePlot == "sample") {
         violinScore <- lapply(df.scores, function(x) {
           plotSCEViolinColData(
             inSCE=inSCESub,
@@ -886,7 +886,6 @@ plotDoubletFinderResults <- function(inSCE,
             axisLabelSize=axisLabelSize
           )
         })
-
         names(violinScore) <- sapply(df.scores, function(x) {
           paste0("violin_", gsub(
             pattern="doubletFinder_doublet_score_",
@@ -1145,7 +1144,7 @@ plotDoubletCellsResults <- function(inSCE,
     ))
     res.list = c(res.list, scatterScore)
 
-    if (length(samples) == 1) {
+    if (length(samples) == 1 | combinePlot == "sample") {
         violinScore <- list(violin_doubletScore = plotSCEViolinColData(
           inSCE=inSCESub,
           coldata="scran_doubletCells_score",
@@ -1366,7 +1365,7 @@ plotCxdsResults <- function(inSCE,
     ))
     res.list = c(res.list, scatterScore)
 
-    if (length(samples) == 1) {
+    if (length(samples) == 1 | combinePlot == "sample") {
         violinScore <- list(violin_doubletScore = plotSCEViolinColData(
           inSCE=inSCESub,
           coldata="scds_cxds_score",
@@ -1546,7 +1545,7 @@ plotBcdsResults <- function(inSCE,
 
   samples <- unique(sample)
   if (length(samples) > 1) {
-    merged.plots <- plotSCEViolinColData(
+    merged.plots <- list(Score = plotSCEViolinColData(
       inSCE=inSCE,
       coldata="scds_bcds_score",
       groupby=sample,
@@ -1563,30 +1562,31 @@ plotBcdsResults <- function(inSCE,
       axisLabelSize=axisLabelSize,
       gridLine=TRUE,
       summary="median"
-    )
+    ))
     merged.plots <- list(merged.plots)
-    names(merged.plots) <- "BCDS_Score"
+    names(merged.plots) <- "Violin"
   }
 
-  res.list <- c()
+  res.list <- list()
   plotlist <- lapply(samples, function(x) {
     sampleInd <- which(sample == x)
     sampleSub <- sample[sampleInd]
     inSCESub <- inSCE[, sampleInd]
 
     densityScore <- list(density_doubletScore = plotSCEDensityColData(
-        inSCE=inSCESub,
-        sample=sampleSub,
-        coldata="scds_bcds_score",
-        groupby=groupby,
-        xlab="Score",
-        ylab="Density",
-        axisSize=axisSize,
-        axisLabelSize=axisLabelSize,
-        defaultTheme=defaultTheme,
-        title="Density, BCDS Score"
+      inSCE=inSCESub,
+      sample=sampleSub,
+      coldata="scds_bcds_score",
+      groupby=groupby,
+      xlab="Score",
+      ylab="Density",
+      axisSize=axisSize,
+      axisLabelSize=axisLabelSize,
+      defaultTheme=defaultTheme,
+      title="Density, BCDS Score",
+      titleSize=titleSize
     ))
-    res.list <- c(res.list, densityScore)
+    res.list = c(res.list, densityScore)
 
     scatterScore <- list(scatter_doubletScore = plotSCEDimReduceColData(
       inSCE=inSCESub,
@@ -1613,65 +1613,64 @@ plotBcdsResults <- function(inSCE,
       legendSize=legendSize,
       legendTitleSize=legendTitleSize
     ))
-    res.list <- c(res.list, scatterScore)
+    res.list = c(res.list, scatterScore)
 
-    if (length(samples) == 1) {
-        violinScore <- list(violin_doubletScore = plotSCEViolinColData(
-          inSCE=inSCESub,
-          coldata="scds_bcds_score",
-          sample=sampleSub,
-          xlab="",
-          ylab="Doublet Score",
-          groupby=groupby,
-          violin=violin,
-          boxplot=boxplot,
-          dots=dots,
-          transparency=transparency,
-          defaultTheme=defaultTheme,
-          title="BCDS Doublet Score",
-          titleSize=titleSize,
-          dotSize=dotSize,
-          axisSize=axisSize,
-          axisLabelSize=axisLabelSize,
-          summary="median"
-        ))
-        res.list <- c(res.list, violinScore)
+    if (length(samples) == 1 | combinePlot == "sample") {
+      violinScore <- list(violin_doubletScore = plotSCEViolinColData(
+        inSCE=inSCESub,
+        coldata="scds_bcds_score",
+        sample=sampleSub,
+        xlab="",
+        ylab="Doublet Score",
+        groupby=groupby,
+        violin=violin,
+        boxplot=boxplot,
+        dots=dots,
+        transparency=transparency,
+        title="BCDS Doublet Score",
+        titleSize=titleSize,
+        defaultTheme=defaultTheme,
+        dotSize=dotSize,
+        axisSize=axisSize,
+        axisLabelSize=axisLabelSize,
+        summary="median"
+      ))
+      res.list = c(res.list, violinScore)
     }
 
     if("scds_bcds_call" %in% names(SingleCellExperiment::colData(inSCE))){
       scatterCall <- list(scatter_doubletCall = plotSCEDimReduceColData(
-          inSCE=inSCESub,
-          sample=sampleSub,
-          colorBy="scds_bcds_call",
-          conditionClass="factor",
-          shape=shape,
-          reducedDimName=reducedDimName,
-          xlab=xlab,
-          ylab=ylab,
-          dim1=dim1,
-          dim2=dim2,
-          bin=bin,
-          binLabel=binLabel,
-          dotSize=dotSize,
-          transparency=transparency,
-          colorScale = c("lightgray","red"),
-          defaultTheme=defaultTheme,
-          title="BCDS Doublet Assignment",
-          titleSize=titleSize,
-          axisSize=axisSize, axisLabelSize=axisLabelSize,
-          labelClusters=FALSE,
-          legendTitle="Doublet \nAssignment",
-          legendTitleSize=16,
-          legendSize=15
+        inSCE=inSCESub,
+        sample=sampleSub,
+        colorBy="scds_bcds_call",
+        conditionClass="factor",
+        shape=shape,
+        reducedDimName=reducedDimName,
+        xlab=xlab,
+        ylab=ylab,
+        dim1=dim1,
+        dim2=dim2,
+        bin=bin,
+        binLabel=binLabel,
+        dotSize=dotSize,
+        transparency=transparency,
+        colorScale = c("lightgray","red"),
+        defaultTheme=defaultTheme,
+        title="BCDS Doublet Assignment",
+        titleSize=titleSize,
+        axisSize=axisSize, axisLabelSize=axisLabelSize,
+        labelClusters=FALSE,
+        legendTitle="Doublet \nAssignment",
+        legendTitleSize=legendTitleSize,
+        legendSize=legendSize
       ))
       res.list <- c(res.list, scatterCall)
     }
-      return(res.list)
-    })
-
+    return(res.list)
+  })
   if (length(unique(samples)) > 1) {
     names(plotlist) <- samples
-    plotlist <- c(merged.plots, plotlist)
+    plotlist <- c(merged.plots, list(Sample = plotlist))
   } else {
     plotlist <- unlist(plotlist, recursive=F)
   }
@@ -1690,6 +1689,7 @@ plotBcdsResults <- function(inSCE,
   }
   return(plotlist)
 }
+
 
 #' @title Plots for runCxdsBcdsHybrid outputs.
 #' @description A wrapper function which visualizes outputs from the
@@ -1865,7 +1865,7 @@ plotScdsHybridResults <- function(inSCE,
     ))
     res.list = c(res.list, scatterScore)
 
-    if (length(samples) == 1) {
+    if (length(samples) == 1 | combinePlot == "sample") {
         violinScore <- list(violin_doubletScore = plotSCEViolinColData(
           inSCE=inSCESub,
           coldata="scds_hybrid_score",
@@ -2115,7 +2115,7 @@ plotDecontXResults <- function(inSCE,
     ))
     res.list = c(res.list, scatterContamination)
 
-    if (length(samples) == 1) {
+    if (length(samples) == 1 | combinePlot == "sample") {
         violinContamination <- list(violin_decontXContamination = plotSCEViolinColData(
             inSCE=inSCESub,
             coldata="decontX_contamination",

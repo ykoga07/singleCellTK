@@ -219,6 +219,8 @@ navbar:
       href: https://www.camplab.net/sctk
     - text: "Installation"
       href: articles/installation.html
+    - text: "Quick Start"
+      href: articles/quick_start.html
     - text: "Tutorials"
       menu:
       - text: "Importing and QC - PBMC3K"

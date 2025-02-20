@@ -1,0 +1,8 @@
+---
+title: "Quick Start"
+output: html_document
+---
+
+For new users of singleCellTK, we offer a step-by-step tutorial that guides you through analyzing a dataset of 2,700 Peripheral Blood Mononuclear Cells (PBMCs) from a healthy donor, provided by 10x Genomics. This tutorial covers the key components of a standard unsupervised clustering workflow, including data import, quality control, filtration, normalization, variable feature selection, dimensionality reduction, and graph-based clustering.
+
+For advanced users familiar with single-cell RNA-seq analysis, the "Tutorials" drop-down menu includes "Detailed Documentation", which offers in-depth explanations for each analysis step. Additionally, we include guidance on downstream analyses beyond initial clustering, such as pathway analysis and pseudotime calculation.

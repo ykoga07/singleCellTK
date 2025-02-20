@@ -3,6 +3,27 @@ title: "Quick Start"
 output: html_document
 ---
 
-For new users of singleCellTK, we offer a step-by-step tutorial that guides you through analyzing a dataset of 2,700 Peripheral Blood Mononuclear Cells (PBMCs) from a healthy donor, provided by 10x Genomics. This tutorial covers the key components of a standard unsupervised clustering workflow, including data import, quality control, filtration, normalization, variable feature selection, dimensionality reduction, and graph-based clustering.
+````{=html}
+<div class="tabset" id="tabset1">
+<div class="tab">
+  <button class="tablinks ia" onclick="openTab(event, 'ia', 'tabset1')">New Users</button>
+  <button class="tablinks console" onclick="openTab(event, 'console', 'tabset1')">Advanced Users</button>
+</div>
+
+<div class="tabcontent ia">
+````
+
+For new users of singleCellTK, we offer a step-by-step tutorial that guides you through analyzing a dataset of 2,700 Peripheral Blood Mononuclear Cells (PBMCs) from a healthy donor, provided by 10x Genomics. This tutorial covers the key components of a standard unsupervised clustering workflow, including [data import, quality control, filtration](01_import_and_qc_tutorial.html), followed by [normalization, variable feature selection, dimensionality reduction, and graph-based clustering](02_a_la_carte_workflow.html).
+
+
+````{=html}
+</div>
+<div class="tabcontent console">
+````
 
 For advanced users familiar with single-cell RNA-seq analysis, the "Tutorials" drop-down menu includes "Detailed Documentation", which offers in-depth explanations for each analysis step. Additionally, we include guidance on downstream analyses beyond initial clustering, such as pathway analysis and pseudotime calculation.
+
+````{=html}
+</div>
+</div>
+````
